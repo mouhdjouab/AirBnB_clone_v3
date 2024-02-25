@@ -8,7 +8,7 @@ from api.v1.views import app_views
 from flask import jsonify, abort, request
 from models.state import State
 
-@app_views.route("/api/v1/states")
+@app_views.route("/states", strict_slashes=False)
 def state_all():
     """Retrieve list of all State object"""
     objects= storage.all(State)
@@ -16,7 +16,7 @@ def state_all():
     for value in objects.values():
         all_states.append(value.to_dict())
     return jsonify(all_states)
-@app_views.route("/states/<state_id>")
+@app_views.route("/states/<state_id>", strict_slashes=False)
 def state_by_ID(state_id: str):
     """
     Retrive one state object by id
@@ -30,7 +30,7 @@ def state_by_ID(state_id: str):
         abort(404)
     return jsonify(result)
 
-@app_views.route("/states/<state_id>", methods=["DELETE"])
+@app_views.route("/states/<state_id>", strict_slashes=False, methods=["DELETE"])
 def del_state(state_id):
     """
     Delete a state
@@ -45,7 +45,7 @@ def del_state(state_id):
     return jsonify({})
 
 
-@app_views.route("/states", methods=["POST"])
+@app_views.route("/states", strict_slashes=False, methods=["POST"])
 def state_create():
     """Create  State object"""
     request = request.get_json()
@@ -58,7 +58,7 @@ def state_create():
     return jsonify(state.to_dict()), 201
 
 
-@app_views.route("/states/<state_id>", methods=["PUT"])
+@app_views.route("/states/<state_id>", strict_slashes=False, methods=["PUT"])
 def state_update(state_id):
     """
     Update State object
