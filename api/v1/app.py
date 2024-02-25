@@ -18,6 +18,11 @@ def tear_down(self):
     '''API status'''
     storage.close()
 
+@app.errorhandler(404)
+def page_not_foun(error):
+    """Method that handles 404 status in JSON fromat"""
+    return make_response(jsonify({"error": "Not found"}), 404)
+
 if __name__ == "__main__":
     host = getenv('HBNB_API_HOST', default='0.0.0.0')
     port = getenv('HBNB_API_PORT', default=5000)
